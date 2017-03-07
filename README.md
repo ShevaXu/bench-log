@@ -21,3 +21,7 @@ BenchmarkNewLogWithFileLineMulti-8    	  300000	      4327 ns/op
 BenchmarkLogWithFileLineMulti2-8      	  100000	     11478 ns/op
 BenchmarkNewLogWithFileLineMulti2-8   	  200000	      8457 ns/op
 ```
+
+See the [issue](https://github.com/golang/go/issues/19438) for more discussion.
+
+In short, not removing the lock is for thread-safe and backwards compatibility.
