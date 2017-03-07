@@ -146,19 +146,16 @@ func (l *Logger) Output(calldepth int, s string) error {
 	now := time.Now() // get this early.
 	var file string
 	var line int
-	l.mu.Lock()
-	defer l.mu.Unlock()
 	if l.flag&(Lshortfile|Llongfile) != 0 {
-		// release lock while getting caller info - it's expensive.
-		l.mu.Unlock()
 		var ok bool
 		_, file, line, ok = runtime.Caller(calldepth)
 		if !ok {
 			file = "???"
 			line = 0
 		}
-		l.mu.Lock()
 	}
+	l.mu.Lock()
+	defer l.mu.Unlock()
 	l.buf = l.buf[:0]
 	l.formatHeader(&l.buf, now, file, line)
 	l.buf = append(l.buf, s...)
